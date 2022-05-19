@@ -18,11 +18,13 @@ const userParams = {
   },
 };
 
-module.exports = {
-  updateUser: {
-    ...userBody,
-    ...userParams,
-  },
-  createUser: userBody,
-  deleteUser: userParams,
+const updateUser = {
+  ...userBody,
+  ...userParams,
 };
+const createUser = userBody;
+const deleteUser = userParams;
+
+// const
+
+export { updateUser, createUser, deleteUser };

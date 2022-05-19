@@ -4,13 +4,12 @@ const noteSchema = {
     properties: {
       title: { type: "string" },
       content: { type: "string" },
-      author: { type: "string " },
     },
     required: ["title"],
   },
 };
 
-module.exports = {
-  updateNote: noteSchema,
-  createNote: noteSchema,
-};
+const updateNote = noteSchema,
+  createNote = noteSchema;
+
+export { createNote, updateNote };

@@ -3,6 +3,7 @@
     "@types/sequelize": "^4.28.13",
     "fastify": "^3.29.0",
     "fastify-cli": "^3.1.0",
+    "fastify-plugin": "^3.0.1",
     "fastify-sequelize": "^1.0.4",
     "sequelize": "^6.19.1",
     "sqlite3": "^5.0.8"
@@ -11,13 +12,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "tsc -p tsconfig.json --outDir ./build -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "fastify start ./src/app.js",
-    "dev": "fastify start ./src/app.js --watch",
+    "start": "fastify start ./build/app.js --watch",
+    "dev": "npm run build & npm run start",
     "server": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^17.0.35",
+    "typescript": "^4.6.4"
+  }
 }

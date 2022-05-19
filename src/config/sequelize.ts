@@ -9,4 +9,4 @@ const sequelizeConfig = {
   storage: "./db.sqlite",
 };
 
-module.exports = sequelizeConfig;
+export default sequelizeConfig;
