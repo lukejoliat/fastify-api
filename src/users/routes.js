@@ -1,10 +1,15 @@
+const { ValidationError } = require("sequelize");
+const { updateUser, getUser, deleteUser } = require("./validations");
+const validations = require("./validations");
+
 module.exports = function (fastify, options, done) {
   fastify.get("/", async (request, reply) => {
     try {
       await fastify.sequelize.authenticate();
       return "Connection has been established successfully.";
     } catch (error) {
-      return `Unable to connect to the database: ${error}`;
+      console.error(error);
+      throw new Error(`Unable to connect to the database: ${error}`);
     }
   });
 
@@ -14,6 +19,7 @@ module.exports = function (fastify, options, done) {
       const users = await fastify.user.findAll();
       return users;
     } catch (error) {
+      console.error(error);
       throw new Error(`Unable to find any users.`);
     }
   });
@@ -29,6 +35,7 @@ module.exports = function (fastify, options, done) {
       }
       return user;
     } catch (error) {
+      console.error(error);
       throw new Error(`Unable to find user.`);
     }
   });
@@ -42,29 +49,41 @@ module.exports = function (fastify, options, done) {
       return user;
     } catch (error) {
       console.error(error);
-      return "Unable to create user.";
+      throw new Error("Unable to create user.");
     }
   });
 
-  fastify.delete("/users/:id", async (request, reply) => {
+  fastify.delete(
+    "/users/:id",
+    { schema: deleteUser },
+    async (request, reply) => {
+      try {
+        const user = await fastify.user.destroy({
+          where: {
+            id: request.params.id,
+          },
+        });
+        reply.code(204);
+      } catch (error) {
+        console.error(error);
+        throw new Error("Unable to delete user.");
+      }
+    }
+  );
+
+  fastify.put("/users/:id", { schema: updateUser }, async (request, reply) => {
+    console.log("updating");
     try {
-      // create a user
-      const user = await fastify.user.destroy({
+      const user = await fastify.user.findOne({
         where: {
           id: request.params.id,
         },
       });
-      return user;
-    } catch (error) {
-      console.error(error);
-      return "Unable to delete user.";
-    }
-  });
-
-  fastify.put("/users/:id", async (request, reply) => {
-    try {
-      // create a user
-      const user = await fastify.user.update(
+      if (!user) {
+        reply.code(404);
+        throw new Error(`Could not find user.`);
+      }
+      await fastify.user.update(
         { username: request.body.username },
         {
           where: {
@@ -75,7 +94,7 @@ module.exports = function (fastify, options, done) {
       return user;
     } catch (error) {
       console.error(error);
-      return "Unable to update user.";
+      throw new Error("Unable to update user.");
     }
   });
 
