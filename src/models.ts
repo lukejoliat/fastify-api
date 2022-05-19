@@ -13,7 +13,7 @@ const plugin: FastifyPluginCallback = (fastify, options, done) => {
     fastify.decorate("user", User);
   };
 
-  User.hasMany(Note, {});
+  User.hasMany(Note, { onDelete: "cascade" });
   Note.belongsTo(User);
 
   Note.sync();

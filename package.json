@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json --outDir ./build -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "fastify start ./build/app.js --watch",
+    "start": "node ./build/server.js",
     "dev": "npm run build & npm run start",
     "server": "node server.js"
   },
