@@ -17,7 +17,7 @@ const routes: FastifyPluginCallback = (fastify, options, done) => {
     try {
       // Find all users
       const users = await fastify.user.findAll();
-      return [];
+      return users;
     } catch (error) {
       console.error(error);
       throw new Error(`Unable to find any users.`);

@@ -9,7 +9,7 @@ const noteSchema = {
   },
 };
 
-const updateNote = noteSchema,
-  createNote = noteSchema;
-
-export { createNote, updateNote };
+export const { createNote, updateNote } = {
+  updateNote: noteSchema,
+  createNote: noteSchema,
+};

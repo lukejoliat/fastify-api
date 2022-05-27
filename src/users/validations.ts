@@ -18,13 +18,8 @@ const userParams = {
   },
 };
 
-const updateUser = {
-  ...userBody,
-  ...userParams,
+export const { updateUser, createUser, deleteUser } = {
+  updateUser: { ...userBody, ...userParams },
+  createUser: userBody,
+  deleteUser: userParams,
 };
-const createUser = userBody;
-const deleteUser = userParams;
-
-// const
-
-export { updateUser, createUser, deleteUser };

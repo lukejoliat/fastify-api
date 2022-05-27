@@ -73,7 +73,7 @@ const routes: FastifyPluginCallback = (fastify, options, done) => {
   }>("/notes/:id", async (request, reply) => {
     try {
       const note = await fastify.note.update(
-        { notename: request.body.title, content: request.body.content },
+        { title: request.body.title, content: request.body.content },
         {
           where: {
             id: request.params.id,

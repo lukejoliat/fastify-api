@@ -6,7 +6,8 @@ import {
 import sequelizeConfig from "./config/sequelize";
 import * as fsequelize from "fastify-sequelize";
 import { Sequelize } from "sequelize/types";
-import modelsPlugin from "./models";
+import fastifycors from "@fastify/cors";
+
 declare module "fastify" {
   interface FastifyInstance {
     sequelize: Sequelize;
@@ -22,11 +23,12 @@ const app: FastifyPluginCallback = (
 ) => {
   // TODO: register dynamically
   fastify.register(fsequelize, sequelizeConfig);
-  //   fastify.register(require("./errors"));
+  fastify.register(fastifycors, {
+    origin: true,
+  });
+
   fastify.register(import("./models"));
-  // fastify.register(import("./users/users"));
   fastify.register(import("./users/routes"));
-  // fastify.register(import("./notes/notes"));
   fastify.register(import("./notes/routes"));
   next();
 };
